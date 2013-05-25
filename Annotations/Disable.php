@@ -2,9 +2,9 @@
 
 namespace Ferrandini\Bundle\DisableBundle\Annotations;
 
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * @Annotation
@@ -21,7 +21,7 @@ class Disable {
     /**
      * @var string
      */
-    public $message = 'Service Unavailable';
+    public $message = 'Service disabled';
 
     /**
      * @var string
@@ -113,10 +113,10 @@ class Disable {
     }
 
     /**
-     * @param Router $router
+     * @param RouterInterface $router
      * @return callable|null
      */
-    public function getResponse(Router $router)
+    public function getResponse(RouterInterface $router)
     {
         if ($this->disableByDateTime() || (empty($this->until) && empty($this->after))) {
             return $this->generateResponse($router);
@@ -126,10 +126,10 @@ class Disable {
     }
 
     /**
-     * @param Router $router
+     * @param RouterInterface $router
      * @return callable
      */
-    private function generateResponse(Router $router)
+    private function generateResponse(RouterInterface $router)
     {
         if (!empty($this->redirect)) {
             return $this->generateRedirectResponse($router);
@@ -139,10 +139,10 @@ class Disable {
     }
 
     /**
-     * @param Router $router
+     * @param RouterInterface $router
      * @return callable
      */
-    private function generateRedirectResponse(Router $router)
+    private function generateRedirectResponse(RouterInterface $router)
     {
         $route = $router->generate($this->redirect);
         return function() use ($route) {
