@@ -1,27 +1,10 @@
 <?php
-
-if (!@include __DIR__ . '/../vendor/autoload.php') {
-    echo <<<EOF
-You must set up the project dependencies, run the following commands:
-
-    wget http://getcomposer.org/composer.phar
-    php composer.phar install
-
-EOF;
-
-    exit(1);
-}
-
-spl_autoload_register(function($class)
-{
-    if (0 === strpos($class, 'Ferrandini\\Bundle\\DisableBundle\\')) {
-        $path = implode('/', array_slice(explode('\\', $class), 3)).'.php';
-
-        if (!stream_resolve_include_path($path)) {
-            return false;
-        }
-        require_once $path;
-
-        return true;
+call_user_func(function() {
+    if ( ! is_file($autoloadFile = __DIR__.'/../vendor/autoload.php')) {
+        throw new \LogicException('Could not find vendor/autoload.php. Did you run "composer install --dev"?');
     }
+
+    require_once $autoloadFile;
+
+    \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 });

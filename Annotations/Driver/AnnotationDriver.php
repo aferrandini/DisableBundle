@@ -3,9 +3,9 @@
 namespace Ferrandini\Bundle\DisableBundle\Annotations\Driver;
 
 use Doctrine\Common\Annotations\Reader;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Ferrandini\Bundle\DisableBundle\Annotations\Disable;
+use Symfony\Component\Routing\RouterInterface;
 
 class AnnotationDriver
 {
@@ -15,7 +15,7 @@ class AnnotationDriver
     private $reader;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
+     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router|\Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
@@ -23,7 +23,7 @@ class AnnotationDriver
      * @param Reader $reader
      * @param Router $router
      */
-    public function __construct(Reader $reader, Router $router)
+    public function __construct(Reader $reader, RouterInterface $router)
     {
         // get annotations reader
         $this->reader = $reader;
