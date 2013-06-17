@@ -4,6 +4,7 @@ namespace Ferrandini\Bundle\DisableBundle\Annotations;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\Annotations\Annotation\Target;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -11,7 +12,8 @@ use Symfony\Component\Routing\RouterInterface;
  * @Target({"CLASS", "METHOD"})
  * @Service
  */
-class Disable {
+class Disable implements DisableInterface
+{
 
     /**
      * @var int
@@ -87,6 +89,19 @@ class Disable {
     }
 
     /**
+     * @param RouterInterface $router
+     * @return callable|null
+     */
+    public function getResponse(RouterInterface $router)
+    {
+        if ($this->disableByDateTime() || (empty($this->until) && empty($this->after))) {
+            return $this->generateResponse($router);
+        }
+
+        return null;
+    }
+
+    /**
      * @return bool
      */
     private function disableByDateTime()
@@ -114,19 +129,6 @@ class Disable {
 
     /**
      * @param RouterInterface $router
-     * @return callable|null
-     */
-    public function getResponse(RouterInterface $router)
-    {
-        if ($this->disableByDateTime() || (empty($this->until) && empty($this->after))) {
-            return $this->generateResponse($router);
-        }
-
-        return null;
-    }
-
-    /**
-     * @param RouterInterface $router
      * @return callable
      */
     private function generateResponse(RouterInterface $router)
@@ -145,7 +147,7 @@ class Disable {
     private function generateRedirectResponse(RouterInterface $router)
     {
         $route = $router->generate($this->redirect);
-        return function() use ($route) {
+        return function () use ($route) {
             return new RedirectResponse($route);
         };
     }
@@ -158,8 +160,9 @@ class Disable {
         $statusCode = $this->statusCode;
         $message = $this->message;
 
-        return function() use ($statusCode, $message) {
+        return function () use ($statusCode, $message) {
             return new Response($message, $statusCode);
         };
     }
+
 }
