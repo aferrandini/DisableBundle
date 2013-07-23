@@ -10,6 +10,7 @@ You will be able to disable directly, after a date/time, until a date/time or by
 You also be able to show a disabled message or redirect the request to another route.
 
 [![Build Status](https://secure.travis-ci.org/aferrandini/DisableBundle.png)](http://travis-ci.org/aferrandini/DisableBundle)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b3ef4a3e-71d6-4aae-a8a3-aa4d42b7b9bf/small.png)](https://insight.sensiolabs.com/projects/b3ef4a3e-71d6-4aae-a8a3-aa4d42b7b9bf)
 
 ## Installation
 
