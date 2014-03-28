@@ -4,7 +4,6 @@ namespace Ferrandini\Bundle\DisableBundle\Annotations;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Annotations\Annotation\Target;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
