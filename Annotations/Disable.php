@@ -10,7 +10,6 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * @Annotation
  * @Target({"CLASS", "METHOD"})
- * @Service
  */
 class Disable implements DisableInterface
 {
